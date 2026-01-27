@@ -1,0 +1,1833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Handlee&family=Homemade+Apple&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>A Digital Valentine’s Dossier</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --accent: #ff9eb5;
+      --accent-2: #ffd6e0;
+      --accent-3: #f6b1c3;
+      --bg-light: #fff6f8;
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --text: #4a2f36;
+      --muted: #7a5a63;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Times New Roman', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: url('https://i.imgur.com/Ri0nQ44.png') center/cover fixed no-repeat;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(250, 240, 242, 0.7);
+      z-index: -1;
+    }
+
+  header {
+  padding: 1rem;
+  backdrop-filter: blur(14px);
+  background: rgba(255,255,255,0.65);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,182,193,0.5);
+  text-align: center;
+}
+
+
+
+    header h1 {
+      margin: 0;
+      font-size: 1.2rem;
+      letter-spacing: 0.04em;
+    }
+
+   nav {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+   nav button {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.5rem;
+  transition: color 0.2s, transform 0.2s;
+}
+
+nav button:hover,
+nav button.active {
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+    section {
+      display: none;
+      padding: 3rem 1.5rem 4rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    section.active { display: block; }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 26px;
+      padding: 2.2rem;
+      margin-bottom: 2.2rem;
+      box-shadow: 0 30px 60px rgba(255, 158, 181, 0.3);
+    }
+
+    .hero {
+      text-align: center;
+      font-size: 1.8rem;
+      line-height: 1.4;
+      margin-bottom: 2rem;
+      animation: floatIn 1.2s ease forwards;
+    }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hearts span {
+      position: absolute;
+      color: var(--accent);
+      opacity: 0.6;
+      animation: floatUp 6s linear infinite;
+      font-size: 1.2rem;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0) scale(1); opacity: 0.6; }
+      to { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+    }
+
+    .nodes {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .node {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .node:hover::after {
+      content: attr(data-note);
+      position: absolute;
+      bottom: -2.2rem;
+      background: #000;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .timeline {
+      border-left: 2px solid var(--accent);
+      margin-left: 1rem;
+      padding-left: 1.5rem;
+    }
+
+    .event {
+      margin-bottom: 1.2rem;
+      cursor: pointer;
+    }
+
+    .event strong { color: var(--accent); }
+
+    .hidden { display: none; }
+
+  
+    .music-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.music-sub {
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+
+.playlist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.playlist-card {
+  width: 280px;
+  padding: 1rem;
+  border-radius: 16px;
+  background: #fff0f5;
+  box-shadow: 0 15px 35px rgba(255,158,181,0.35);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.playlist-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 50px rgba(255,158,181,0.45);
+}
+
+.cd-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.8rem;
+}
+
+.cd-spin {
+  font-size: 2.4rem;
+  animation: spin 6s linear infinite;
+}
+
+/* Spin animation */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Optional: playlist titles & descriptions */
+.playlist-card strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+.playlist-card p {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin-bottom: 0.7rem;
+}
+
+
+.header-flex {
+  display: flex;
+  align-items: center; /* vertical center */
+  gap: 1.5rem;
+}
+
+.vinyl-spin {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #555 0%, #222 60%, #000 100%);
+  position: relative;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  animation: spin-vinyl 4s linear infinite;
+  transform-origin: 50% 50%; /* ensures proper spinning */
+  flex-shrink: 0; /* prevents shrinking when text wraps */
+}
+
+/* Grooves effect */
+.vinyl-spin::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle,
+    rgba(255,255,255,0.05) 0px,
+    rgba(255,255,255,0.05) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+}
+
+/* Center label */
+.vinyl-spin::after {
+  content: '';
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  background: #ff9eb5;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 4px rgba(0,0,0,0.5);
+}
+
+@keyframes spin-vinyl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Optional: make header text scale nicely with big vinyl */
+.music-text h2 {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; 
+}
+
+.music-sub {
+  font-family: 'Dancing Script', cursive;
+  opacity: 0.85;
+  margin: 0.2rem 0 0;
+  font-size: 1rem;
+}
+
+
+#noticed .bouquet-header {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 1.8rem;
+  font-family: 'Playfair Display', serif;
+}
+
+#noticed .bouquet-scene {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  height: 440px;
+  margin: 0 auto;
+}
+
+#noticed .bouquet-group {
+  position: absolute;
+  left: 48%;        /* 🔥 moves bouquet RIGHT */
+  bottom: 18px;     /* 🔥 moves bouquet LOWER */
+  transform: translateX(-50%);
+  width: 420px;
+  height: 420px;
+}
+
+
+
+#noticed .bouquet-wrap {
+  position: absolute;
+  bottom: -10px;   /* was 28px — lowering wrapper shows more flowers */
+  left: 55%;
+  transform: translateX(-50%);
+  width: 275px;
+  z-index: 6;
+  pointer-events: none;
+}
+
+
+/* BIG BEAR */
+#noticed .bouquet-bear {
+  position: absolute;
+  bottom: -18px;
+  right: -180px;
+  width: 300px;   /* BIG like you wanted */
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* flower base */
+#noticed .flower-img {
+  position: absolute;
+  width: 76px;
+  left: -120px;
+  transform: scale(0.75);
+  transition: 
+    left 1s cubic-bezier(.22,1,.36,1),
+    bottom 1s cubic-bezier(.22,1,.36,1),
+    transform 0.8s ease;
+  z-index: 3;
+  
+}
+
+
+#noticed .flower-img.focus {
+  left: 205px !important;
+  bottom: 255px !important;   /* 🔥 clearly higher */
+  transform: scale(1.55);
+  z-index: 7;
+}
+
+
+
+#noticed .flower-img.placed {
+  transform: translateY(-28px) scale(1);   /* 🔥 much higher */
+}
+
+
+
+
+/* smiling flower NOT in front of bouquet */
+#noticed .smile-flower {
+  z-index: 4;
+}
+
+
+
+/* TEXT UNDER FLOWER */
+#noticed .flower-tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: 145px;
+  transform: translateX(-50%);
+  background: #ffe6f0;
+  color: #7a3b4a;
+  padding: 10px 16px;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(255,158,181,0.35);
+  pointer-events: none;
+}
+
+#noticed .bouquet-controls {
+  text-align: center;
+  margin-top: 18px;
+}
+
+#noticed .bouquet-controls button {
+  background: #ffe6f0;
+  border: none;
+  padding: 10px 18px;
+  margin: 0 6px;
+  border-radius: 18px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #7a3b4a;
+  box-shadow: 0 4px 12px rgba(255,158,181,0.35);
+  transition: transform 0.2s ease;
+}
+
+#noticed .bouquet-controls button:hover {
+  transform: scale(1.07);
+}
+
+
+
+
+    .countdown {
+      font-size: 1.4rem;
+      text-align: center;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .column {
+      background: rgba(255,255,255,0.05);
+      padding: 0.8rem;
+      border-radius: 14px;
+      min-height: 200px;
+    }
+
+    .task {
+      background: var(--card-bg);
+      padding: 0.5rem;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+   .polaroid-card {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.polaroid-sub {
+  text-align: center;
+  font-size: .9rem;
+  opacity: .7;
+  margin-bottom: 1.4rem;
+}
+
+.polaroids {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2.2rem;
+  margin-bottom: 2rem;
+}
+
+.polaroid {
+  width: 240px;
+  background: #fff;
+  padding: 1rem 1rem 2rem;
+  border-radius: 6px;
+  box-shadow:
+    0 22px 45px rgba(255,158,181,0.35),
+    0 6px 14px rgba(0,0,0,0.06);
+  transform: rotate(var(--r));
+  position: relative;
+  transition: transform .3s ease;
+}
+
+.polaroid:hover {
+  transform: rotate(var(--r)) scale(1.05);
+}
+
+.polaroid::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 48px;
+  height: 16px;
+  background: rgba(255, 214, 224, 0.95);
+  transform: translateX(-50%) rotate(-2deg);
+  border-radius: 4px;
+}
+
+.polaroid img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: .6rem;
+}
+
+.polaroid input {
+  border: none;
+  border-bottom: 1px dashed #e7a9b7;
+  background: transparent;
+  width: 100%;
+  text-align: center;
+  outline: none;
+}
+
+.polaroid .date {
+  font-size: .7rem;
+  opacity: .65;
+  margin-bottom: .3rem;
+}
+
+.polaroid .caption {
+  font-size: .8rem;
+  font-family: 'Courier New', monospace;
+}
+
+.polaroid-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.upload-btn {
+  background: #ffd6e0;
+  color: #4a2f36;
+  border: none;
+  padding: .7rem 1.4rem;
+  border-radius: 999px;
+  font-size: .9rem;
+  cursor: pointer;
+}
+
+.commit-btn {
+  background: linear-gradient(135deg, #ff9eb5, #f6b1c3);
+  color: #fff;
+  border: none;
+  padding: .8rem 1.6rem;
+  border-radius: 999px;
+  font-size: .95rem;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(255,158,181,.45);
+}
+
+.delete-polaroid {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  border: none;
+  background: #ffe1ea;
+  color: #7a3b4a;
+  font-size: .7rem;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  opacity: .8;
+}
+
+.delete-polaroid:hover {
+  opacity: 1;
+}
+
+.commit-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 245, 248, 0.95);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.commit-box {
+  background: #fff;
+  padding: 2.2rem;
+  border-radius: 26px;
+  text-align: center;
+  box-shadow: 0 30px 60px rgba(255,158,181,.4);
+  max-width: 320px;
+}
+
+.commit-question {
+  font-size: 1.2rem;
+  margin-bottom: 1.4rem;
+}
+
+.commit-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.yes-btn {
+  background: linear-gradient(135deg, #ff9eb5, #f6b1c3);
+  color: white;
+  border: none;
+  padding: .7rem 1.4rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: .9rem;
+}
+
+.no-btn {
+  background: #ffe1ea;
+  color: #7a3b4a;
+  border: none;
+  padding: .7rem 1.4rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: .9rem;
+}
+
+
+
+
+    .reactions button {
+      margin: 0.4rem;
+      background: var(--accent);
+      border: none;
+      border-radius: 999px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.7rem;
+      opacity: 0.6;
+      padding-bottom: 2rem;
+    }
+
+    .easter {
+      position: fixed;
+      bottom: 8px;
+      right: 10px;
+      font-size: 0.7rem;
+      opacity: 0.15;
+      cursor: pointer;
+    }
+
+  /* ===============================
+   GLOBAL RESPONSIVE REFACTOR
+   =============================== */
+
+html {
+  font-size: 16px;
+}
+
+img, iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+section {
+  padding: clamp(1.5rem, 4vw, 3rem) 1rem;
+}
+
+.card {
+  padding: clamp(1.2rem, 4vw, 2.2rem);
+  border-radius: 22px;
+}
+
+/* Prevent overflow */
+body {
+  overflow-x: hidden;
+}
+
+
+
+/* =====================================================
+   REAL MOBILE FIX (phones)
+   ===================================================== */
+@media (max-width: 768px) {
+
+  /* ---------- HEADER ---------- */
+  header h1 {
+    font-size: 0.9rem;
+  }
+
+  nav {
+    gap: 0.4rem;
+  }
+
+  nav button {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.3rem;
+  }
+
+  /* ---------- CARDS & SECTIONS ---------- */
+  section {
+    padding: 1.4rem 0.6rem 3rem;
+  }
+
+  .card {
+    padding: 1.2rem;
+    border-radius: 18px;
+  }
+
+  /* ---------- SOUNDTRACK HEADER FIX ---------- */
+  .header-flex {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .vinyl-spin {
+    width: 90px;
+    height: 90px;
+  }
+
+  .music-text h2 {
+    font-size: 1.4rem;
+  }
+
+  .music-sub {
+    font-size: 0.85rem;
+  }
+
+  /* ---------- PLAYLIST / SPOTIFY FIX ---------- */
+  .playlist {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .playlist-card {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .playlist-card iframe {
+    height: 260px;       /* important so play button is visible */
+  }
+
+  /* ---------- BOUQUET SECTION ---------- */
+  #noticed .bouquet-scene {
+    transform: scale(0.75);
+    transform-origin: top center;
+    height: 360px;
+  }
+
+  #noticed .bouquet-bear {
+    right: -120px;
+    width: 200px;
+  }
+
+  /* ---------- POLAROIDS ---------- */
+  .polaroid {
+    width: 170px;
+  }
+
+  .polaroid img {
+    height: 130px;
+  }
+
+  /* ---------- COUNTDOWN TEXT ---------- */
+  .countdown {
+    font-size: 1.05rem;
+  }
+}
+
+
+/* ================= DESKTOP PLAYLIST LAYOUT RESTORE ================= */
+@media (min-width: 769px) {
+
+  #soundtrack .playlist {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center;
+    align-items: stretch;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  #soundtrack .playlist-card {
+    width: 320px;
+    max-width: 320px;
+  }
+
+  #soundtrack .playlist-card iframe {
+    height: 380px;
+  }
+
+  #soundtrack .header-flex {
+    flex-direction: row !important;
+    align-items: center;
+    text-align: left;
+    gap: 30px;
+  }
+
+  #soundtrack .vinyl-spin {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+/* ================= SPOTIFY DESKTOP SCROLL FIX ================= */
+@media (min-width: 769px) {
+
+  #soundtrack .playlist-card iframe {
+    height: 420px !important;  /* tall enough to scroll */
+  }
+}
+
+/* Mobile keeps its own height */
+@media (max-width: 768px) {
+
+  #soundtrack .playlist-card iframe {
+    height: 260px;
+  }
+}
+@media (min-width: 769px) {
+  #soundtrack .playlist-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 45px rgba(255,158,181,0.45);
+  }
+}
+
+/* ===== Mobile vinyl size fix ===== */
+@media (max-width: 768px) {
+
+  .vinyl-spin {
+    width: 90px;
+    height: 90px;
+  }
+
+  .vinyl-spin::after {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+
+<div class="hearts"></div>
+
+<header>
+  <h1>A Digital Valentine’s Dossier…</h1>
+  <nav>
+    <button class="active" onclick="showPage('home')">The Vibe</button>
+    <button onclick="showPage('music')">The Soundtrack</button>
+    <button onclick="showPage('noticed')">Build a Bouquet</button>
+    <button onclick="showPage('march')">Countdown to March</button>
+    <button onclick="showPage('final-note-section')">A Final Note</button>
+  </nav>
+</header>
+
+<section id="home" class="active">
+  <div class="card hero">HAPPY VALENTINES DAY NED !! 💞 <br> since I'm not good with words.</div>
+
+  <div class="card">
+    <h3>Connection Map</h3>
+    <div class="nodes">
+      <div class="node" data-note="That 2am alien debate">👽</div>
+      <div class="node" data-note="Your elite music taste">🎧</div>
+      <div class="node" data-note="The meme that started it all">😂</div>
+      <div class="node" data-note="Late-night thoughts">🌙</div>
+      <div class="node" data-note="Unnecessary opinions">🎮</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Just Some Shared Moments</h3>
+    <p style="opacity:.8">No labels. No milestones. Just things that happened and stuck.</p>
+    <div class="nodes">
+      <div class="node" data-note="That conversation that accidentally lasted way too long">💬</div>
+      <div class="node" data-note="Same sense of humor. Verified.">😅</div>
+      <div class="node" data-note="We both overthink. A little.">🧠</div>
+      <div class="node" data-note="Comfortably random topics">✨</div>
+    </div>
+  </div>
+      <div class="event" onclick="toggle(this)"><strong>Week 2</strong> — Meme lore begins<div class="hidden">Still laughing. No regrets.</div></div>
+      <div class="event" onclick="toggle(this)"><strong>Recently</strong> — March became a thing<div class="hidden">Yeah… I smiled at my screen.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="music">
+  <div class="card music-header">
+  <div class="header-flex">
+    <div class="vinyl-spin"></div>
+    <div class="music-text">
+      <h2>The Soundtrack</h2>
+      <p class="music-sub">Playlists and songs that reminded me of you 🩷 </p>
+    </div>
+  </div>
+</div>
+
+
+<div class="playlist">
+
+  <!-- Playlist 1 -->
+  <div class="card playlist-card">
+    <div class="cd-container">
+      <div class="cd-spin">💿</div>
+    </div>
+
+    <strong>My Favorite Person</strong>
+    <p>When thinking of you.</p>
+
+    <div class="spotify-wrap">
+      <iframe
+        src="https://open.spotify.com/embed/playlist/1850vWd2wnn1Vg2DLXsHMM"
+        frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Playlist 2 -->
+  <div class="card playlist-card">
+    <div class="cd-container">
+      <div class="cd-spin">💿</div>
+    </div>
+
+    <strong>Disney Songs for You</strong>
+    <p>In which I'll force you to listen to these.</p>
+
+    <div class="spotify-wrap">
+      <iframe
+        src="https://open.spotify.com/embed/playlist/6IRBqRC0fcgcUJxVmPFqNN"
+        frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Playlist 3 -->
+  <div class="card playlist-card">
+    <div class="cd-container">
+      <div class="cd-spin">💿</div>
+    </div>
+
+    <strong>About You (Taylor Swift)</strong>
+    <p>Obviously there’s a Taylor Swift playlist.</p>
+
+    <div class="spotify-wrap">
+      <iframe
+        src="https://open.spotify.com/embed/playlist/4NcPumqhh5dtjUHZQrDHD6"
+        frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+      </iframe>
+    </div>
+  </div>
+
+</div>
+  </div>
+
+  <style>
+    /* ========= SPOTIFY SECTION FIX ========= */
+
+.playlist {
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.playlist-card {
+  width: 320px;
+  text-align: center;
+}
+
+.spotify-wrap {
+  margin-top: 12px;
+  width: 100%;
+  height: 320px;   /* perfect middle size */
+}
+
+
+.spotify-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .spotify-wrap {
+    height: 240px;
+  }
+
+
+  .playlist {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .playlist-card {
+    width: 100%;
+    max-width: 340px;
+  }
+}
+
+  </style>
+</section>
+
+
+
+<section id="noticed">
+  <div class="card bouquet-header">
+    <em>10 things i LOVE about you.</em>
+  </div>
+<div class="bouquet-scene" id="bouquetScene">
+  <div class="bouquet-group">
+
+    <!-- FLOWERS (same images reused) -->
+    <!-- FLOWERS (10 TOTAL) -->
+<!-- BACK ROW (wide) -->
+<img src="https://i.imgur.com/nqGvrs2.png" class="flower-img" data-text="I love how smart and talented you are." data-x="150" data-y="165">
+<img src="https://i.imgur.com/nQKOi41.png" class="flower-img" data-text="I love how you always make me laugh." data-x="185" data-y="175">
+<img src="https://i.imgur.com/gv66VBk.png" class="flower-img" data-text="I love how you really listen and make me feel seen." data-x="220" data-y="175">
+<img src="https://i.imgur.com/G3osE6S.png" class="flower-img" data-text="I love how thoughtful you are." data-x="255" data-y="165">
+
+<!-- MIDDLE ROW -->
+<img src="https://i.imgur.com/ffFiSQm.png" class="flower-img" data-text="I love how determined you are." data-x="170" data-y="145">
+<img src="https://i.imgur.com/uKjdqng.png" class="flower-img" data-text="I love how you make me feel safe." data-x="205" data-y="150">
+<img src="https://i.imgur.com/nqGvrs2.png" class="flower-img" data-text="I love how you notice little things." data-x="240" data-y="145">
+
+<!-- FRONT ROW -->
+<img src="https://i.imgur.com/nQKOi41.png" class="flower-img" data-text="I love how you’re always yourself." data-x="185" data-y="125">
+<img src="https://i.imgur.com/gv66VBk.png" class="flower-img" data-text="I love everything about you." data-x="225" data-y="125">
+
+
+<img src="https://i.imgur.com/neDkpON.png" 
+     class="flower-img smile-flower" 
+     data-text="And I love you. Always." 
+     data-x="205" 
+     data-y="140">
+
+
+    <!-- WRAPPER -->
+    <img src="https://i.imgur.com/KJCzZhO.png" class="bouquet-wrap">
+
+    <!-- BIG BEAR -->
+    <img src="https://i.imgur.com/Qh5t7S7.png" class="bouquet-bear">
+<div class="bouquet-controls">
+  <button id="keepBouquet">Keep bouquet 💐</button>
+  <button id="replayBouquet">Replay animation 🌸</button>
+</div>
+
+  </div>
+</div>
+
+  </div>
+
+  <div class="flower-tooltip" id="flowerTooltip"></div>
+</section>
+
+   
+
+
+<section id="march">
+  <div class="card countdown">
+    Official Countdown to March 💗<br><br>
+<span id="realCountdown"></span>
+    Alternate Countdown: <span id="fake">0</span> seconds
+  </div>
+
+  <div class="card polaroid-card">
+  <h3>This Space Is Reserved for Memories 💘</h3>
+  <p class="polaroid-sub">USSSSS 💗</p>
+
+  <div class="polaroids" id="polaroidGallery">
+    <!-- Polaroids will be generated here -->
+  </div>
+
+  <input
+    type="file"
+    accept="image/*"
+    multiple
+    id="photoInput"
+    style="display:none"
+    onchange="addPolaroids(event)"
+  />
+
+  <div class="polaroid-actions">
+    <button class="upload-btn" onclick="document.getElementById('photoInput').click()">
+      Add photos 📸
+    </button>
+
+    <button class="commit-btn" onclick="openCommitModal()">
+  Commit to Filling These Frames? 🥹🌸
+</button>
+
+<div id="commitModal" class="commit-modal">
+  <div class="commit-box">
+    <p class="commit-question">Commit to filling these frames?</p>
+    <div class="commit-buttons">
+      <button class="yes-btn" onclick="commitYes()">Yes 💗</button>
+      <button class="no-btn" onclick="commitNo()">No 😐</button>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+</div>
+</section>
+
+
+<section id="final-note-section">
+
+  <!-- Envelope -->
+  <div id="envelope-container">
+    <div id="envelope">
+      <div class="env-back"></div>
+      <div class="env-flap"></div>
+      <div class="env-front"></div>
+
+      <div id="wax-seal">
+        <div class="heart"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup -->
+  <div id="letter-popup" class="hidden">
+    <p>Open the letter?</p>
+    <div class="popup-buttons">
+      <button id="yes-btn">Yes</button>
+      <button id="no-btn">No</button>
+    </div>
+  </div>
+
+  <div id="mad-text" class="hidden">ok. im mad now.</div>
+
+  <!-- Letter -->
+<div id="letter-stage">
+  <button id="close-letter">close ✕</button>
+
+    <div class="notebook-paper">
+      <p><strong>To Ned,</strong></p>
+
+      <p>
+        Prepare yourself, because this might be the corniest thing I’ll ever willingly admit to writing, but it’s also one of the only chances I’ll ever get to be this honest, so here we are. I can’t say “from the moment we met” because, realistically, my memory is awful and I barely remember yesterday. But I do know that ever since we started talking, I’ve gotten more attached to you in a way I didn’t expect.
+      </p>
+
+      <p>
+        Getting to know you has been easy. You’re genuinely one of the most thoughtful people I’ve met. You check in, you ask about my day, you remember things I say without me having to repeat myself, and you notice when something’s off even through a screen. That stuff matters to me more than you probably realize. I like how consistent you are, how you make the effort without making it feel forced.
+      </p>
+
+      <p>
+        I love how smart you are, how you play piano, how you play basketball, how naturally affectionate you are. I love the way you spam me when I’m mad, your dumb jokes, your laugh, your smile, your voice. I love the little things you do, like telling me to be safe, to sleep well, saying “love you” maybe twice? but that really made me smile. Not talking to you makes things feel incomplete, and I hope texting me never feels like a chore, because it never does to me.
+      </p>
+
+      <p>
+        I don’t usually try this hard when I’m not interested in someone. Actually, I don’t try at all. So this is new territory for me. Somehow, in a really short amount of time, you became someone I care about deeply and someone I genuinely don’t want to lose. When I met you, I didn’t expect you to become this important to me but you did. You made my days brighter, my smiles bigger, and things just feel better when you’re around, even from far away.
+
+      </p>
+    
+
+      <p>
+        I’ll be honest, it scares me a little. I don’t want to look stupid, and I don’t like being this vulnerable at all. but you’re the first guy I’ve ever genuinely liked back, fully, with my wholeeee heart. You became part of my routine without even trying. You’re the first person I think about when I wake up and the last one before I sleep.
+      </p>
+
+      <p>
+        And yes, I made a website. One, because you’re far away and I couldn’t exactly hand you something. And two, because I’m bad at putting feelings into words, so I show them through effort instead.
+      </p>
+      <p>
+        That’s just how I am. I hope you understand how much I like you, because it’s a lot. probably more than I know how to explain properly.
+      </p>
+
+      <p>
+        You’re one of the best people I’ve ever met, and definitely one of the most important people in my life right now. I don’t say this lightly, and I don’t say it unless I mean it, so I’ll say it once and stand by it, I love you, I really do. Happy Valentine’s Day. I hope this small gesture makes you even a fraction as happy as you make me.
+
+      </p>
+      <p>
+        I love you. Happy Valentine’s Day.
+      </p>
+       <div class="signature">
+  Love, <span>Sarah</span>
+</div>
+    </div>
+
+  </div>
+
+
+<style>
+#final-note-section {
+  position: relative;
+}
+
+
+#final-note-section.active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* TRUE center */
+  min-height: 100vh;       /* important */
+}
+
+
+
+/* Envelope */
+#final-note-section #envelope-container {
+  cursor: pointer;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-22px); }
+}
+
+#final-note-section #envelope-container {
+  transform: translateY(40px);
+}
+
+
+
+
+#final-note-section #envelope {
+  width: min(600px, 90vw);
+  aspect-ratio: 3 / 2;
+}
+
+
+
+#final-note-section .env-back {
+  background: linear-gradient(135deg, #fff0f5, #ffd6e3);
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  box-shadow: 0 30px 80px rgba(180,50,90,.35);
+  position: absolute;
+}
+
+#final-note-section .env-flap {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-left: 300px solid transparent;
+  border-right: 300px solid transparent;
+  border-top: 220px solid #ffb6c9;
+  transform-origin: top;
+  transition: transform .9s ease;
+  z-index: 5;
+}
+
+#final-note-section .env-front {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 70%;
+  background: linear-gradient(135deg, #ffe6ee, #ffc1d6);
+  border-radius: 0 0 20px 20px;
+  z-index: 4;
+}
+
+/* Wax Seal */
+#final-note-section #wax-seal {
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle at top, #ff6f91, #8b102d);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 95px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#final-note-section .heart {
+  width: 32px;
+  height: 32px;
+  background: #ffe6ee;
+  transform: rotate(-45deg);
+  position: relative;
+}
+
+#final-note-section .heart::before,
+#final-note-section .heart::after {
+  content: "";
+  width: 32px;
+  height: 32px;
+  background: #ffe6ee;
+  border-radius: 50%;
+  position: absolute;
+}
+
+#final-note-section .heart::before { top: -16px; }
+#final-note-section .heart::after { left: 16px; }
+
+#final-note-section .notebook-paper {
+  background:
+    linear-gradient(to right, #ff9db5 2px, transparent 2px),
+    repeating-linear-gradient(
+      white,
+      white 32px,
+      #ffd6e3 33px
+    );
+  padding: clamp(24px, 6vw, 70px);
+  font-family: "Allura", serif;
+  font-size: clamp(16px, 4vw, 22px);
+  line-height: 1.6;
+  border-radius: 22px;
+  box-shadow: 0 35px 90px rgba(180,50,90,.35);
+  max-width: 900px;
+}
+
+
+#final-note-section .signature {
+  margin-top: 40px;
+  text-align: right;
+  font-size: 44px;     /* BIGGER, confident */
+  font-family: "Allura", "Allura", cursive;
+  font-size: 24px;
+  color: #8b102d;
+}
+
+#final-note-section .signature span {
+  display: block;
+  font-family: "Allura", "Allura", cursive;
+  font-size: 44px;     /* BIGGER, confident */
+  margin-top: 6px;
+}
+
+
+
+#final-note-section #letter-popup {
+  position: absolute;
+   top: calc(50% + 110px);
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 28px;
+
+  background: #fff0f5;
+  padding: 24px 36px;
+  border-radius: 18px;
+  box-shadow: 0 18px 45px rgba(180,50,90,.35);
+
+  text-align: center;
+  z-index: 20;
+}
+
+
+.hidden { display: none; }
+
+#final-note-section .popup-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#final-note-section .popup-buttons button {
+  padding: 14px 34px;
+  border-radius: 40px;
+  border: none;
+  background: linear-gradient(135deg, #ff7aa2, #ff4d7a);
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(255, 90, 130, 0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+#final-note-section .popup-buttons button:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 18px 40px rgba(255, 90, 130, 0.55);
+}
+
+#final-note-section .popup-buttons button:active {
+  transform: scale(0.96);
+}
+
+#final-note-section .hidden-envelope {
+  display: none;
+}
+
+#letter-stage {
+  position: fixed;             /* fixed so it’s always on screen */
+  top: 56%;                    /* vertical center */
+  left: 50%;                   /* horizontal center */
+  transform: translate(-50%, -50%) scale(0.35); /* start small */
+  transform-origin: bottom center; /* pulls out from envelope bottom */
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 1s cubic-bezier(.22,1,.36,1), opacity 0.5s ease;
+  z-index: 50;                /* above everything */
+
+  width: 80vw;                 /* responsive width */
+  max-width: 900px;             /* cap max width */
+  max-height: 80vh;            /* cap max height */
+  overflow-y: auto;            /* scroll if too tall */
+
+  padding: 40px;               /* inside padding */
+  box-sizing: border-box;
+  border-radius: 22px;
+  box-shadow: 0 35px 90px rgba(180,50,90,.35);
+  background: linear-gradient(to right, #ff9db5 2px, transparent 2px),
+              repeating-linear-gradient(white, white 32px, #ffd6e3 33px);
+  font-family: "Georgia", serif;
+  font-size: 20px;
+  line-height: 32px;
+}
+
+#letter-stage.open {
+  transform: translate(-50%, -50%) scale(1); /* grow to full size */
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* Hide envelope once letter is out */
+#final-note-section .envelope-gone {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+/* Close button placement */
+#final-note-section #close-letter {
+  margin-top: 20px;
+  background: none;
+  border: none;
+  color: #8b102d;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: right;
+}
+
+
+
+/* ================= MOBILE LETTER FIX ================= */
+@media (max-width: 768px) {
+
+  /* Fix letter going off-screen */
+  #letter-stage {
+    top: 50%;                 /* instead of 56% */
+    left: 50%;
+    transform: translateX(-50%) scale(0.35);  /* remove vertical translate */
+    max-height: 90vh;
+    width: 92vw;
+    padding: 24px;
+  }
+
+  #letter-stage.open {
+    transform: translateX(-50%) scale(1);
+  }
+
+  /* Fix envelope flap breaking on small screens */
+  #final-note-section .env-flap {
+    border-left: 45vw solid transparent;
+    border-right: 45vw solid transparent;
+    border-top: 30vw solid #ffb6c9;
+  }
+}
+
+
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const section = document.getElementById("final-note-section");
+  if (!section) return;
+
+  const envelopeContainer = section.querySelector("#envelope-container");
+  const flap = section.querySelector(".env-flap");
+  const popup = section.querySelector("#letter-popup");
+  const letter = section.querySelector("#letter-stage");
+  const madText = section.querySelector("#mad-text");
+
+  const yesBtn = section.querySelector("#yes-btn");
+  const noBtn = section.querySelector("#no-btn");
+  const closeBtn = section.querySelector("#close-letter");
+
+  /* RESET STATE */
+  popup.classList.add("hidden");
+  madText.classList.add("hidden");
+  letter.classList.remove("open");
+  envelopeContainer.style.opacity = "1";
+  envelopeContainer.style.pointerEvents = "auto";
+  flap.style.transform = "rotateX(0deg)";
+
+  /* CLICK ENVELOPE */
+  envelopeContainer.addEventListener("click", () => {
+    popup.classList.remove("hidden");
+    madText.classList.add("hidden");
+  });
+
+  /* YES — OPEN LETTER */
+  yesBtn.addEventListener("click", () => {
+    popup.classList.add("hidden");
+    madText.classList.add("hidden");
+
+    /* open flap */
+    flap.style.transform = "rotateX(180deg)";
+
+    /* pull letter out */
+    setTimeout(() => {
+      envelopeContainer.style.opacity = "0";
+      envelopeContainer.style.pointerEvents = "none";
+      letter.classList.add("open");
+    }, 700);
+  });
+
+  /* NO — FORCE THEM */
+  noBtn.addEventListener("click", () => {
+    popup.classList.add("hidden");
+    madText.classList.remove("hidden");
+    madText.textContent = "you have no choice. open it. ❤";
+  });
+
+  /* CLOSE NOTE */
+  closeBtn.addEventListener("click", () => {
+    letter.classList.remove("open");
+
+    setTimeout(() => {
+      flap.style.transform = "rotateX(0deg)";
+      envelopeContainer.style.opacity = "1";
+      envelopeContainer.style.pointerEvents = "auto";
+    }, 600);
+  });
+});
+</script>
+
+
+</section>
+
+<footer>
+  Happy Valentine's day Ned.  ~ Feb 14, 2026, Sarah💘
+</footer>
+
+<div class="easter" onclick="egg()">❤</div>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+
+  function react(text) {
+    document.getElementById('reaction').textContent = text;
+  }
+
+  // floating hearts
+  const heartBox = document.querySelector('.hearts');
+  setInterval(() => {
+    const h = document.createElement('span');
+    h.textContent = '💗';
+    h.style.left = Math.random()*100 + 'vw';
+    h.style.bottom = '-20px';
+    heartBox.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+  }, 600);
+
+  // popup flowers on click
+  document.addEventListener('click', (e) => {
+    const flower = document.createElement('div');
+    flower.textContent = '💘';
+    flower.style.position = 'fixed';
+    flower.style.left = e.clientX + 'px';
+    flower.style.top = e.clientY + 'px';
+    flower.style.fontSize = '1.4rem';
+    flower.style.pointerEvents = 'none';
+    flower.style.animation = 'pop 1s ease forwards';
+    document.body.appendChild(flower);
+    setTimeout(()=>flower.remove(),1000);
+  });
+
+  const style = document.createElement('style');
+  style.textContent = `@keyframes pop {from{transform:scale(0);opacity:1}to{transform:scale(1.8);opacity:0}}`;
+  document.head.appendChild(style);
+
+  let clicks = 0;
+  function egg() {
+    clicks++;
+    if(clicks === 5) alert('Okay wow you’re observant. Send me a meme.');
+  }
+
+
+const STORAGE_KEY = 'polaroidGalleryData';
+
+// Load saved polaroids on page load
+window.addEventListener('load', loadPolaroids);
+
+function loadPolaroids() {
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  const gallery = document.getElementById('polaroidGallery');
+  gallery.innerHTML = '';
+
+  saved.forEach(data => createPolaroid(data));
+}
+
+function savePolaroids() {
+  const data = [];
+  document.querySelectorAll('.polaroid').forEach(p => {
+    data.push({
+      img: p.querySelector('img').src,
+      date: p.querySelector('.date').value,
+      caption: p.querySelector('.caption').value,
+      rotation: p.style.getPropertyValue('--r')
+    });
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function addPolaroids(event) {
+  Array.from(event.target.files).slice(0,6).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      createPolaroid({
+        img: e.target.result,
+        date: '',
+        caption: '',
+        rotation: `${Math.random()*6-3}deg`
+      });
+      savePolaroids();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function createPolaroid(data) {
+  const gallery = document.getElementById('polaroidGallery');
+  const p = document.createElement('div');
+  p.className = 'polaroid';
+  p.style.setProperty('--r', data.rotation || '0deg');
+
+  p.innerHTML = `
+    <button class="delete-polaroid">✕</button>
+    <img src="${data.img}">
+    <input class="date" placeholder="March __, 2025" value="${data.date || ''}">
+    <input class="caption" placeholder="what we did here" value="${data.caption || ''}">
+  `;
+
+  // Save on edit
+  p.querySelector('.date').addEventListener('input', savePolaroids);
+  p.querySelector('.caption').addEventListener('input', savePolaroids);
+
+  // Delete
+  p.querySelector('.delete-polaroid').addEventListener('click', () => {
+    p.remove();
+    savePolaroids();
+  });
+
+  gallery.appendChild(p);
+}
+
+
+function openCommitModal() {
+  document.getElementById('commitModal').style.display = 'flex';
+}
+
+function closeCommitModal() {
+  document.getElementById('commitModal').style.display = 'none';
+}
+
+function commitYes() {
+  closeCommitModal();
+  showCommitMessage("YAYAYAYAYAY!! 💗🌸 I'll see you in March!");
+}
+
+function commitNo() {
+  closeCommitModal();
+  showCommitMessage("kys.i hate you. die. ☹");
+}
+
+function showCommitMessage(text) {
+  const overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.inset = 0;
+  overlay.style.background = 'rgba(255,245,248,.95)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.fontSize = '2rem';
+  overlay.style.color = '#ff7fa0';
+  overlay.style.zIndex = 10000;
+  overlay.textContent = text;
+  document.body.appendChild(overlay);
+
+  setTimeout(() => overlay.remove(), 1800);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const section = document.querySelector("#noticed");
+  if (!section) return;
+
+  const flowers = section.querySelectorAll(".flower-img");
+  const tooltip = section.querySelector("#flowerTooltip");
+  const replayBtn = section.querySelector("#replayBouquet");
+  const keepBtn = section.querySelector("#keepBouquet");
+
+  let isPlaying = false;
+
+  function setLeftStack() {
+    flowers.forEach((flower, i) => {
+      flower.classList.remove("placed", "focus");
+      flower.style.left = "-115px";
+      flower.style.bottom = 310 - i * 38 + "px";
+      flower.style.transform = "scale(0.75)";
+    });
+  }
+
+  function setFinalBouquet() {
+    flowers.forEach(flower => {
+      flower.classList.remove("focus");
+      flower.classList.add("placed");
+      flower.style.left = flower.dataset.x + "px";
+      flower.style.bottom = flower.dataset.y + "px";
+      flower.style.transform = "scale(1)";
+    });
+  }
+
+  async function buildBouquet() {
+    if (isPlaying) return;
+    isPlaying = true;
+
+    for (let flower of flowers) {
+      flower.classList.add("focus");
+
+      tooltip.textContent = flower.dataset.text;
+      tooltip.style.opacity = 1;
+
+      await wait(1800);
+
+      tooltip.style.opacity = 0;
+
+      flower.classList.remove("focus");
+      flower.classList.add("placed");
+
+      flower.style.left = flower.dataset.x + "px";
+      flower.style.bottom = flower.dataset.y + "px";
+
+      await wait(800);
+    }
+
+    isPlaying = false;
+  }
+
+  function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  /* KEEP bouquet forever */
+  keepBtn.addEventListener("click", () => {
+    localStorage.setItem("bouquetKept", "yes");
+    console.log("🌸 Bouquet saved");
+  });
+
+  /* REPLAY bouquet */
+  replayBtn.addEventListener("click", () => {
+    localStorage.removeItem("bouquetKept");
+    tooltip.style.opacity = 0;
+    setLeftStack();
+    setTimeout(buildBouquet, 400);
+  });
+
+  /* ON LOAD */
+  const kept = localStorage.getItem("bouquetKept");
+
+  if (kept === "yes") {
+    setFinalBouquet();   // instant bouquet, no animation
+  } else {
+    setLeftStack();
+    setTimeout(buildBouquet, 600);
+  }
+
+});
+
+
+function startMarchCountdown() {
+  const countdownEl = document.getElementById("realCountdown");
+
+  // SET YOUR MEET DATE HERE
+  // Example: March 15, 2026 at 12:00 PM
+  const meetDate = new Date("March 15, 2026 12:00:00").getTime();
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = meetDate - now;
+
+    if (distance <= 0) {
+      countdownEl.innerHTML = "It’s March. We finally meet 💘";
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((distance / (1000 * 60)) % 60);
+    const seconds = Math.floor((distance / 1000) % 60);
+
+    countdownEl.innerHTML =
+      days + " days, " +
+      hours + " hours, " +
+      minutes + " minutes, " +
+      seconds + " seconds";
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+}
+
+document.addEventListener("DOMContentLoaded", startMarchCountdown);
+
+
+</script>
+</body>
+
+</html>
